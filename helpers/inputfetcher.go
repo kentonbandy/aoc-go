@@ -3,12 +3,12 @@ package helpers
 import (
 	"bufio"
 	"fmt"
+	"github.com/joho/godotenv"
+	"io"
 	"net/http"
 	"os"
 	"runtime"
 	"strings"
-	"io"
-	"github.com/joho/godotenv"
 )
 
 func GetLines() []string {
@@ -51,7 +51,7 @@ func fetchDataAndCreateInputFile(day int, year int) {
 	filename := fmt.Sprintf("%d/%02d/input.txt", year, day)
 	writeToFile(content, filename)
 	if content != "" {
-		fmt.Println("Success!")		
+		fmt.Println("Success!")
 	}
 }
 
@@ -70,7 +70,7 @@ func getInputData(year int, day int) string {
 	if err != nil {
 		fmt.Printf("Unable to fetch data: %v", err)
 	}
-	
+
 	content, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Printf("Unable to read data: %v", err)

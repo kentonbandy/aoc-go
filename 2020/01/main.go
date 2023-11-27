@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/kentonbandy/aoc-go/helpers"
 	"errors"
 	"fmt"
+	"github.com/kentonbandy/aoc-go/helpers"
 	"strconv"
 )
 
@@ -37,5 +37,5 @@ func findNum2(lines []string, num int) (int, error) {
 			return lineNum, nil
 		}
 	}
-	return 0, errors.New("not found");
+	return 0, errors.New("not found")
 }

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/kentonbandy/aoc-go/helpers"
 	"fmt"
+	"github.com/kentonbandy/aoc-go/helpers"
 )
 
 func main() {

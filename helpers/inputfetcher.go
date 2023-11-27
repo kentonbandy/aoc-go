@@ -50,22 +50,22 @@ func fetchDataAndCreateInputFile(day int, year int) {
 	// create/write file
 	filename := fmt.Sprintf("%d/%02d/input.txt", year, day)
 	writeToFile(content, filename)
+
 	if content != "" {
 		fmt.Println("Success!")
 	}
 }
 
 func getInputData(year int, day int) string {
-	url := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
 	cookie := getSessionCookie()
-	sessionCookie := http.Cookie{Name: "session", Value: cookie}
 
+	url := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		fmt.Printf("Unable to create request: %v", err)
 	}
 
-	req.AddCookie(&sessionCookie)
+	req.AddCookie(&cookie)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		fmt.Printf("Unable to fetch data: %v", err)
@@ -86,7 +86,7 @@ func writeToFile(content string, filename string) {
 	}
 }
 
-func getSessionCookie() string {
+func getSessionCookie() http.Cookie {
 	cookie := os.Getenv("AOC_SESSION_COOKIE")
 	if cookie == "" {
 		envErr := godotenv.Load(".env")
@@ -95,5 +95,6 @@ func getSessionCookie() string {
 		}
 		cookie = os.Getenv("AOC_SESSION_COOKIE")
 	}
-	return cookie
+	sessionCookie := http.Cookie{Name: "session", Value: cookie}
+	return sessionCookie
 }

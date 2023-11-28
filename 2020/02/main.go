@@ -8,7 +8,7 @@ import (
 
 func main() {
 	lines := helpers.GetLines()
-	
+
 	validCount1 := 0
 	validCount2 := 0
 	var num1 int
@@ -24,8 +24,7 @@ func main() {
 	fmt.Println(validCount2)
 }
 
-func isValidPassword(line string) (int, int) {
-	part1 := 0
+func isValidPassword(line string) (part1 int, part2 int) {
 	// such parsing
 	pair := strings.Split(line, ": ")
 	policy := strings.Split(pair[0], " ")
@@ -47,7 +46,8 @@ func isValidPassword(line string) (int, int) {
 	maxstring := string(pair[1][max-1])
 	// such xor logic
 	if ((minstring == char || maxstring == char) && minstring != maxstring) {
-		return part1, 1
+		part2 = 1
 	}
-	return part1, 0
+	
+	return
 }

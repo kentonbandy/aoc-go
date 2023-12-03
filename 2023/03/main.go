@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/kentonbandy/aoc-go/helpers"
 	"fmt"
+	"github.com/kentonbandy/aoc-go/helpers"
 )
 
 func main() {
@@ -45,7 +45,8 @@ func getPartSum(partnumberids map[string]struct{}, numidtonum map[string]int) (s
 	return
 }
 
-func getPartNumberIds(previous string, line string, next string, i int, j int, coordtonumid map[string]string, partnumberids map[string]struct{}) {
+func getPartNumberIds(previous string, line string, next string, i int, j int,
+	coordtonumid map[string]string, partnumberids map[string]struct{}) {
 	lookaround(previous, line, next, i, j, coordtonumid, partnumberids)
 }
 
@@ -53,7 +54,7 @@ func getPartNumberIds(previous string, line string, next string, i int, j int, c
 // if it has exactly two number neighbors, it's a gear, returns the value
 // otherwise returns 0
 func getGearValue(previous string, line string, next string, i int, j int,
-coordtonumid map[string]string, numidtonum map[string]int) (gearvalue int) {
+	coordtonumid map[string]string, numidtonum map[string]int) (gearvalue int) {
 	// use a map because go doesn't have sets lol
 	numids := make(map[string]struct{})
 
@@ -72,23 +73,23 @@ coordtonumid map[string]string, numidtonum map[string]int) (gearvalue int) {
 }
 
 func lookaround(previous string, line string, next string, i int, j int,
-coordtonumid map[string]string, numids map[string]struct{}) {
+	coordtonumid map[string]string, numids map[string]struct{}) {
 	// line above
 	if previous != "" {
-		lookaroundline(previous, i - 1, j, coordtonumid, numids)
+		lookaroundline(previous, i-1, j, coordtonumid, numids)
 	}
 	// current line
 	lookaroundline(line, i, j, coordtonumid, numids)
 	// line below
 	if next != "" {
-		lookaroundline(next, i + 1, j, coordtonumid, numids)
+		lookaroundline(next, i+1, j, coordtonumid, numids)
 	}
 }
 
 func lookaroundline(line string, i int, j int, coordtonumid map[string]string, numids map[string]struct{}) {
 	// left
-	if j > 0 && helpers.ByteIsInt(line[j - 1]) {
-		coord := fmt.Sprintf("%d,%d", j - 1, i)
+	if j > 0 && helpers.ByteIsInt(line[j-1]) {
+		coord := fmt.Sprintf("%d,%d", j-1, i)
 		numids[coordtonumid[coord]] = struct{}{}
 	}
 	// current
@@ -97,8 +98,8 @@ func lookaroundline(line string, i int, j int, coordtonumid map[string]string, n
 		numids[coordtonumid[coord]] = struct{}{}
 	}
 	// right
-	if j < len(line) - 1 && helpers.ByteIsInt(line[j + 1]) {
-		coord := fmt.Sprintf("%d,%d", j + 1, i)
+	if j < len(line)-1 && helpers.ByteIsInt(line[j+1]) {
+		coord := fmt.Sprintf("%d,%d", j+1, i)
 		numids[coordtonumid[coord]] = struct{}{}
 	}
 }
@@ -112,11 +113,11 @@ func buildCoordToNum(lines []string) (coordtonumid map[string]string, numidtonum
 	for i, line := range lines {
 		for j, c := range line {
 			char := string(c)
-			if (helpers.IsInt(char)) {
+			if helpers.IsInt(char) {
 				thisnum += char
 				coord := fmt.Sprintf("%d,%d", j, i)
 				coords = append(coords, coord)
-				if j == len(line) - 1 {
+				if j == len(line)-1 {
 					num := helpers.StringToInt(thisnum)
 					for _, coord := range coords {
 						coordtonumid[coord] = coords[0]
@@ -126,7 +127,7 @@ func buildCoordToNum(lines []string) (coordtonumid map[string]string, numidtonum
 					coords = nil
 				}
 			} else {
-				if (thisnum != "") {
+				if thisnum != "" {
 					num := helpers.StringToInt(thisnum)
 					for _, coord := range coords {
 						coordtonumid[coord] = coords[0]
@@ -142,18 +143,18 @@ func buildCoordToNum(lines []string) (coordtonumid map[string]string, numidtonum
 }
 
 func getPreviousAndNext(lines []string, i int) (previous string, next string) {
-	if (i > 0) {
-		previous = lines[i - 1]
+	if i > 0 {
+		previous = lines[i-1]
 	}
-	if (i < len(lines) - 1) {
-		next = lines[i + 1]
+	if i < len(lines)-1 {
+		next = lines[i+1]
 	}
 	return
 }
 
 func isSymbol(b byte) bool {
-	notsymbols := []byte{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9','.'}
-	
+	notsymbols := []byte{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'}
+
 	return !helpers.ContainsByte(notsymbols, b)
 }
 
